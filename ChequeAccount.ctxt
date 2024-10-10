@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=ChequeAccount
+comment1.params=theAccountNumber\ thePIN\ theAvailableBalance\ theTotalBalance\ theLimitPerCheque
+comment1.target=ChequeAccount(int,\ int,\ double,\ double,\ int)
+comment2.params=
+comment2.target=double\ getValue()
+comment3.params=newlimit
+comment3.target=void\ setLimitPerCheque(int)
+numComments=4

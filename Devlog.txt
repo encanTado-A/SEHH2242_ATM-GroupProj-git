@@ -1,0 +1,21 @@
+
+Oct/3:
+Responsibility:Emil 
+finished Part II feature B 
+1.1version provided
+
+Oct/5:
+Lancentary (Ivan) took the task of Part II feature A
+
+Oct/6:
+Responsibility:Lancentary (Ivan)
+finished Part II feature A
+Adjusted function: allows users to either choose the pre-defined withdrawal amount $100 / $500 / $1000
+Added function: allows users input the the multiples of HKD100 for withdrawal [according to the lecturer email apply]
+Implementation method: optional statement 
+Email content:"HK ATM allows users to either choose the pre-defined withdrawal amount $100 / $500 / $1000 AND input the the multiples of HKD100 for withdrawal!"
+1.2version provided
+Created devlog.txt
+Changed README.TXT
+(Note: Corresponding java source file and class file have been gernerated)
+ 
