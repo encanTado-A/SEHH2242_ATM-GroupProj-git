@@ -83,6 +83,13 @@ public class BankDatabase
    public int getChequeLimit(int userAccountNumber) {
        return (int)getAccount(userAccountNumber).getValue();
    }
+
+   // newly added to authenticate target transfer account exist
+   public boolean authenticateUserExist(int userAccountNumber)
+   {
+      Account userAccount = getAccount( userAccountNumber );
+      return userAccount != null ;
+   } // end authenticateUserExist
 } // end class BankDatabase
 
 

@@ -1,0 +1,34 @@
+user click (5) Transfer
+
+# start of transfer
+
+back-end: verify account type
+if saving account:
+	return: cant do transfer?
+
+back-end: get balance
+if balance < 0:
+	return error message: cannot transfer: not suffient fund to do transfer
+
+prompt: ask the user which account to transfer
+
+if the account not exist:
+	return error message: reprompt (max 3 try?)
+
+prompt: ask user the amount to transfer
+
+if the amount is invalid: (ie. not suffient fund to do transfer)
+	return error message: reprompt (max 3 try?)
+
+prompt: confirm the detail with the user
+if no:
+	return back the main account meun
+back-end: do the transfer
+
+return back to the main account meun
+
+# finish of transfer
+
+general question in developement:
+	do we need transfer fee?
+	do we need to verify account type? And How?

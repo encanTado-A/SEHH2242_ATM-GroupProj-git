@@ -16,7 +16,8 @@ public class ATM
    private static final int WITHDRAWAL = 2;
    private static final int DEPOSIT = 3;
    private static final int ACCFUNC = 4; //newly added to do specific account functions
-   private static final int EXIT = 5;
+   private static final int TRANSFER = 5;
+   private static final int EXIT = 9;
 
    // no-argument ATM constructor initializes instance variables
    public ATM() 
@@ -93,7 +94,8 @@ public class ATM
             case BALANCE_INQUIRY: 
             case WITHDRAWAL: 
             case DEPOSIT:
-            case ACCFUNC: //newly added case for specific account type function
+            case ACCFUNC: //newly added case for specific account type function'
+            case TRANSFER: // newly added case for transfer fund function'
 
                // initialize as new object of chosen type
                currentTransaction = 
@@ -128,7 +130,8 @@ public class ATM
       else {
           screen.displayMessageLine( "4 - View cheque limit" );
       }
-      screen.displayMessageLine( "5 - Exit\n" );
+      screen.displayMessageLine( "5 - Transfer fund" );
+      screen.displayMessageLine( "9 - Exit\n" );
       screen.displayMessage( "Enter a choice: " );
       return keypad.getInput(); // return user's selection
    } // end method displayMainMenu
@@ -155,6 +158,9 @@ public class ATM
             break;
          case ACCFUNC: //create new specific Account Function transaction
             temp = new SpecAccountFunction( currentAccountNumber, screen, bankDatabase);
+            break;
+         case TRANSFER:
+            temp = new Transfer( currentAccountNumber, screen, bankDatabase, keypad );
             break;
       } // end switch
 
