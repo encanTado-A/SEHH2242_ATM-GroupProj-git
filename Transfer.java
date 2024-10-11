@@ -1,20 +1,15 @@
 // Transfer.java
 // Represents a transfer ATM transcation
 
-// import java.time;
+import java.util.UUID;
 
 public class Transfer extends Transaction {
-
-    // private Account ownerAccount;
-    // private BankDatabase bankDatabaseSub;
-    private Keypad keypad;
-    // private CashDispenser cashDispenser; // reference to cash dispenser
-
-    private final int MAXINPUTCOUNT = 3;
+    private Keypad keypad; // reference to keypad
+    private static UUID transactionRecord[];
 
     // Transfer constractor
     public Transfer( int userAccountNumber, Screen atmScreen,
-         BankDatabase atmBankDatabase, Keypad atmKeypad )
+            BankDatabase atmBankDatabase, Keypad atmKeypad )
     {
         // initialize superclass variables
         super(userAccountNumber, atmScreen, atmBankDatabase);
@@ -23,10 +18,11 @@ public class Transfer extends Transaction {
     } // end Transfer
 
     // return false if inputted account number does not exist
-    public boolean checkAccountExist( int tmp )
+    private boolean checkAccountExist( int tmp )
     {
         BankDatabase bankDatabase = getBankDatabase();
         
+        // return true if user exist in BankDatabase, else false
         return bankDatabase.authenticateUserExist(tmp) ;
     } // end checkAccountExist
 
@@ -35,8 +31,16 @@ public class Transfer extends Transaction {
     {
         BankDatabase bankDatabase = getBankDatabase();
 
+        // return true if user have funds in the account, else false
         return bankDatabase.getAvailableBalance(this.getAccountNumber()) > 0;
     } // end checkAvailableBalance
+
+    // generate a unique reference number to transaction record
+    private UUID generateUUID ()
+    {
+        UUID tmp = UUID.randomUUID();
+        return tmp;
+    } // 
 
     // perform transfer
     private void transfer(int tmpAccountNo, int amount)
@@ -49,46 +53,48 @@ public class Transfer extends Transaction {
         bankDatabase.debit(getAccountNumber(), amount);
 
         // debit the same amount to the target transfer account
-        bankDatabase.debit(tmpAccountNo, amount);
+        bankDatabase.credit(tmpAccountNo, amount);
 
         // completed transfer
-        int tmpReferenceNo = 0; // format: time + account number (only show first 1 + last 1 digit)
+        UUID tmpReferenceNo = generateUUID(); // format: time + account number (only show first 1 + last 1 digit)
 
-        screen.displayMessageLine("\nTransfer in progress...\n");
+        screen.displayMessageLine("Transfer in progress...\n");
         screen.displayMessageLine("\nTransfer has completed.");
         screen.displayMessageLine("Reference no.: " + tmpReferenceNo + "\n");
     }
 
     @Override
+    // run when called
     public void execute()
     {
         // get references to bank database and screen
         BankDatabase bankDatabase = getBankDatabase();
         Screen screen = getScreen();
 
-        // int noOfTry = 0;
+        // temporary integer variable for storing user input
         int tmpConfirmation = 0;
         int tmpAccountNo = 0;
         int amount = 0;
 
+        // flag variables for conditions
+        boolean canceled = false;
         boolean flagAllClear = false;
-        boolean CANCELED = false;
-        boolean flagTransferSuccess = false;
         boolean flagUserExist = false;
-        boolean flagConfirmTranscation = false;
-        boolean flagReinput = false;
         boolean flagAmountValid = false;
+        boolean flagTransferAvailable = false;
+        boolean flagConfirmTranscation = false;
+        boolean flagTransferSuccess = false;
 
         while (!flagAllClear) {
 
-            while (!flagUserExist)
+            while (!flagTransferAvailable)
             {
                 screen.displayMessageLine("\nPlease enter the account number that you want to transfer, or enter 0 to cancel the operation");
                 tmpAccountNo = keypad.getInput();
 
                 // user wants to exit transfer action
                 if (tmpAccountNo == 0) {
-                    CANCELED = true;
+                    canceled = true;
                     break;
                 } // end if
 
@@ -99,56 +105,56 @@ public class Transfer extends Transaction {
                     break;
                 } // end if
 
-                // check if the account not exist
+                // check if the recipient account does not exist
                 flagUserExist = checkAccountExist(tmpAccountNo);
-            } // end while
 
-            if (flagUserExist == false || tmpAccountNo == this.getAccountNumber() )
-            {
-                screen.displayMessageLine("\nInvalid account number."
-                                        + "\nplease try again.\n");
-                continue;
-            } // end if
-            else
-            {
-                while (flagUserExist && !flagAmountValid)
+                if (flagUserExist == false || tmpAccountNo == this.getAccountNumber() )
                 {
-                    // diplay the presented account amount
-                    screen.displayMessage("\nAvailable balance: ");
-                    screen.displayDollarAmount(bankDatabase.getAvailableBalance(this.getAccountNumber()));
-                    screen.displayMessageLine("\n");
+                    screen.displayMessageLine("\nInvalid account number."
+                                            + "\nplease try again.");
+                    continue;
+                } // end if
 
-                    // get transfer amount
-                    screen.displayMessageLine("Please enter the amount you wish to transfer, or enter 0 to cancel the operation");
-                    amount = keypad.getInput();
+                flagTransferAvailable = true;
+            } // end while (!flagTransferAvailable)
 
-                    // user wants to exit transfer action
-                    if (amount == 0)
-                    {
-                        CANCELED = true;
-                        break;
-                    }
+            while (flagTransferAvailable && !flagAmountValid)
+            {
+                // diplay the presented account amount
+                screen.displayMessage("\nAvailable balance: ");
+                screen.displayDollarAmount(bankDatabase.getAvailableBalance(this.getAccountNumber()));
+                screen.displayMessageLine("\n");
 
-                    if (bankDatabase.getAvailableBalance(this.getAccountNumber()) < amount)
-                    {
-                        screen.displayMessageLine("\nInsufficient balance. Please try again");
-                        // re-prompt again to let user input
-                        continue;
-                    }
+                // get transfer amount
+                screen.displayMessageLine("Please enter the amount you wish to transfer, or enter 0 to cancel the operation");
+                amount = keypad.getInput();
 
-                    // exit loop
-                    flagAmountValid = true;
-                    // flagTransferSuccess = true;
-                } // end while (!flagTransferSuccess)
-            } // end else
+                // user wants to exit transfer action
+                if (amount == 0)
+                {
+                    canceled = true;
+                    break; // exit the while loop and exited
+                }
 
-            while (!flagTransferSuccess && ((flagUserExist && flagAmountValid) && !CANCELED))
+                if (bankDatabase.getAvailableBalance(this.getAccountNumber()) < amount)
+                {
+                    screen.displayMessageLine("\nInsufficient balance. Please try again");
+                    // re-prompt again to let user input
+                    continue;
+                }
+
+                // exit loop
+                flagAmountValid = true;
+            } // end while (flagTransferAvailable && !flagAmountValid)
+
+            while (!flagTransferSuccess && ((flagTransferAvailable && flagAmountValid) && !canceled))
             {
                 screen.displayMessageLine("Confirm meun:");
-                screen.displayMessageLine("Account number: ");
+                screen.displayMessageLine("From: \tAccount number:\t" + this.getAccountNumber());
+                screen.displayMessageLine("To: \tAccount number:\t" + tmpAccountNo);
                 screen.displayMessageLine("Transfer amount: " + amount);
 
-                screen.displayMessageLine("Enter 1 to confirm, "
+                screen.displayMessageLine("\nEnter 1 to confirm, "
                                 + "enter 2 to re-input the amount, "
                                 + "or enter 0 to cancel the operation");
                 tmpConfirmation = keypad.getInput();
@@ -156,12 +162,14 @@ public class Transfer extends Transaction {
                 switch (tmpConfirmation)
                 {
                     case 0:
-                        CANCELED = true;                        
+                        // cancel transaction and exit
+                        canceled = true;                        
                         break;
                     case 1:
                         flagConfirmTranscation = true;
                         break;
                     case 2:
+                        // re-enter transfer amount
                         flagAmountValid = false;
                         break;
                     default:
@@ -172,9 +180,9 @@ public class Transfer extends Transaction {
                 } // end switch
 
                 flagTransferSuccess = flagAmountValid && flagConfirmTranscation;
-            } // end while
+            } // end while (!flagTransferSuccess && ((flagTransferAvailable && flagAmountValid) && !canceled))
 
-            if (CANCELED)
+            if (canceled)
                 break;
 
             if (flagTransferSuccess)

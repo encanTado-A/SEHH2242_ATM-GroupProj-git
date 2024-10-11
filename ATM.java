@@ -130,7 +130,7 @@ public class ATM
       else {
           screen.displayMessageLine( "4 - View cheque limit" );
       }
-      screen.displayMessageLine( "5 - Transfer fund" );
+      screen.displayMessageLine( "5 - Transfer funds" );
       screen.displayMessageLine( "9 - Exit\n" );
       screen.displayMessage( "Enter a choice: " );
       return keypad.getInput(); // return user's selection
