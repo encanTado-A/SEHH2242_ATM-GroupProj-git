@@ -2,7 +2,7 @@ This is the first modified version of the ATM script
 
 Assuming that there are no misconception of the requirements, Part B out of ABCD is finished.
 
-Current version: 1.2
+Current version: 1.3
 
 Notes: 
 

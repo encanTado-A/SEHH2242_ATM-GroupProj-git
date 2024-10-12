@@ -18,4 +18,20 @@ Email content:"HK ATM allows users to either choose the pre-defined withdrawal a
 Created devlog.txt
 Changed README.TXT
 (Note: Corresponding java source file and class file have been gernerated)
- 
+
+Oct/9
+Andrew took the task of Part II feature D
+
+Oct/11
+Responsibility:Andrew
+finished Part II feature D
+Added function: (5) Transfer allow users to transfer funds to another account (no pre-defined amount option)
+Implementation method: new class, reverse logic if statement, while-loop with flag variables, and UUID to generage reference number
+1.3version provided
+Created Transfer.java
+Created brainstorming_part_II_D.txt
+Changed devlog.txt
+Changed README.TXT
+Changed ATM.java
+Changed BankDatabase.java
+(Note: Corresponding java source file and class file have been gernerated)
