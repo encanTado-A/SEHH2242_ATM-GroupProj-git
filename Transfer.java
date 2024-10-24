@@ -1,11 +1,12 @@
 // Transfer.java
 // Represents a transfer ATM transcation
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Transfer extends Transaction {
     private Keypad keypad; // reference to keypad
-    private static UUID transactionRecord[];
+    private static ArrayList<UUID> transactionRecord = new ArrayList<>();
 
     // Transfer constractor
     public Transfer( int userAccountNumber, Screen atmScreen,
@@ -15,7 +16,7 @@ public class Transfer extends Transaction {
         super(userAccountNumber, atmScreen, atmBankDatabase);
 
         this.keypad = atmKeypad;
-    } // end Transfer
+    } // end construster Transfer
 
     // return false if inputted account number does not exist
     private boolean checkAccountExist( int tmp )
@@ -40,10 +41,10 @@ public class Transfer extends Transaction {
     {
         UUID tmp = UUID.randomUUID();
         return tmp;
-    } // 
+    } // end generateUUID
 
     // perform transfer
-    private void transfer(int tmpAccountNo, int amount)
+    private void transfer(int tmpAccountNo, double amount)
     {
         BankDatabase bankDatabase = getBankDatabase();
         Screen screen = getScreen();
@@ -58,10 +59,41 @@ public class Transfer extends Transaction {
         // completed transfer
         UUID tmpReferenceNo = generateUUID(); // format: time + account number (only show first 1 + last 1 digit)
 
+        // store reference number
+        addATMTransferRecord(tmpReferenceNo);
+
         screen.displayMessageLine("Transfer in progress...\n");
         screen.displayMessageLine("\nTransfer has completed.");
         screen.displayMessageLine("Reference no.: " + tmpReferenceNo + "\n");
-    }
+
+        // getATMTransferRecord();
+    } // end transfer
+
+
+    public void addATMTransferRecord (UUID tmpReferenceNumber) 
+    {
+        this.transactionRecord.add(tmpReferenceNumber);
+    } // end addATMTransferRecord
+
+    // perform record checking (Assume for Admin / maintenance use only )
+    public void getATMTransferRecord ()
+    {
+        Screen screen = getScreen();
+
+        // print out the transactionRecord
+        screen.displayMessageLine("Transfer transaction record thus far");
+        screen.displayMessageLine("Last update: NULL"); // no time implemented
+
+        // top bar
+        screen.displayMessageLine("\trecord count\treference number");
+        int index = 0;
+        for ( UUID record :  this.transactionRecord )
+        {
+            screen.displayMessageLine("\t" + index++ + "\t\t"+ record);
+        }
+
+        screen.displayMessageLine("All record has been displayed");
+    } // end getATMTransferRecord
 
     @Override
     // run when called
@@ -74,7 +106,7 @@ public class Transfer extends Transaction {
         // temporary integer variable for storing user input
         int tmpConfirmation = 0;
         int tmpAccountNo = 0;
-        int amount = 0;
+        double amount = 0;
 
         // flag variables for conditions
         boolean canceled = false;
@@ -126,8 +158,9 @@ public class Transfer extends Transaction {
                 screen.displayMessageLine("\n");
 
                 // get transfer amount
-                screen.displayMessageLine("Please enter the amount you wish to transfer, or enter 0 to cancel the operation");
+                screen.displayMessageLine("Please enter the amount (in cent) you wish to transfer, or enter 0 to cancel the operation");
                 amount = keypad.getInput();
+                amount = amount / 100;
 
                 // user wants to exit transfer action
                 if (amount == 0)

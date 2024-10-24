@@ -41,3 +41,10 @@ Responsibility:Lancentary(Ivan)
 Added new Saving account and Cheque account
 Deleted README.TXT
 Constructed new class file of BankDatabase
+
+Oct/24
+Responsibility:Andrew
+Added new method in Transfer:　addATMTransferRecord, getATMTransferRecord
+Changed execute: ammount will now registed as in cent from dollar
+Constructed new class file of Transfer
+1.41version provided
