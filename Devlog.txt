@@ -35,3 +35,9 @@ Changed README.TXT
 Changed ATM.java
 Changed BankDatabase.java
 (Note: Corresponding java source file and class file have been gernerated)
+
+Oct/24
+Responsibility:Lancentary(Ivan)
+Added new Saving account and Cheque account
+Deleted README.TXT
+Constructed new class file of BankDatabase

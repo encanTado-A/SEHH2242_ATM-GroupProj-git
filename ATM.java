@@ -8,15 +8,13 @@ public class ATM
    private Screen screen; // ATM's screen
    private Keypad keypad; // ATM's keypad
    private CashDispenser cashDispenser; // ATM's cash dispenser
-   private DepositSlot depositSlot; // ATM's deposit slot
    private BankDatabase bankDatabase; // account information database
 
    // constants corresponding to main menu options
    private static final int BALANCE_INQUIRY = 1;
    private static final int WITHDRAWAL = 2;
-   private static final int DEPOSIT = 3;
-   private static final int ACCFUNC = 4; //newly added to do specific account functions
-   private static final int TRANSFER = 5;
+   private static final int ACCFUNC = 3; //newly added to do specific account functions
+   private static final int TRANSFER = 4;
    private static final int EXIT = 9;
 
    // no-argument ATM constructor initializes instance variables
@@ -27,7 +25,6 @@ public class ATM
       screen = new Screen(); // create screen
       keypad = new Keypad(); // create keypad 
       cashDispenser = new CashDispenser(); // create cash dispenser
-      depositSlot = new DepositSlot(); // create deposit slot
       bankDatabase = new BankDatabase(); // create acct info database
    } // end no-argument ATM constructor
 
@@ -93,7 +90,6 @@ public class ATM
             // user chose to perform one of three transaction types
             case BALANCE_INQUIRY: 
             case WITHDRAWAL: 
-            case DEPOSIT:
             case ACCFUNC: //newly added case for specific account type function'
             case TRANSFER: // newly added case for transfer fund function'
 
@@ -122,15 +118,14 @@ public class ATM
       screen.displayMessageLine( "\nMain menu:" );
       screen.displayMessageLine( "1 - View my balance" );
       screen.displayMessageLine( "2 - Withdraw cash" );
-      screen.displayMessageLine( "3 - Deposit funds" );
       //newly added a few lines of code to determine the type of account a show which operation to complete
       if (accountType == 1) { 
-          screen.displayMessageLine( "4 - View interest rate" );
+          screen.displayMessageLine( "3 - View interest rate" );
       }
       else {
-          screen.displayMessageLine( "4 - View cheque limit" );
+          screen.displayMessageLine( "3 - View cheque limit" );
       }
-      screen.displayMessageLine( "5 - Transfer funds" );
+      screen.displayMessageLine( "4 - Transfer funds" );
       screen.displayMessageLine( "9 - Exit\n" );
       screen.displayMessage( "Enter a choice: " );
       return keypad.getInput(); // return user's selection
@@ -152,10 +147,6 @@ public class ATM
             temp = new Withdrawal( currentAccountNumber, screen, 
                bankDatabase, keypad, cashDispenser );
             break; 
-         case DEPOSIT: // create new Deposit transaction
-            temp = new Deposit( currentAccountNumber, screen, 
-               bankDatabase, keypad, depositSlot );
-            break;
          case ACCFUNC: //create new specific Account Function transaction
             temp = new SpecAccountFunction( currentAccountNumber, screen, bankDatabase);
             break;
