@@ -1,7 +1,0 @@
-#BlueJ class context
-comment0.target=Keypad
-comment1.params=
-comment1.target=Keypad()
-comment2.params=
-comment2.target=int\ getInput()
-numComments=3

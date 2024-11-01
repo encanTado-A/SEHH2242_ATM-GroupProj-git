@@ -134,6 +134,7 @@ public class Transfer extends Transaction {
                 if (checkAvailableBalance() == false)
                 {
                     screen.displayMessageLine("\nInsufficient balance to transfer.");
+                    canceled = true;
                     break;
                 } // end if
 
@@ -159,6 +160,7 @@ public class Transfer extends Transaction {
 
                 // get transfer amount
                 screen.displayMessageLine("Please enter the amount (in cent) you wish to transfer, or enter 0 to cancel the operation");
+                screen.displayMessageLine("E.g. amount 100 = 1.00");
                 amount = keypad.getInput();
                 amount = amount / 100;
 
