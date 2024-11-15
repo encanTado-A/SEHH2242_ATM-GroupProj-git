@@ -1,4 +1,6 @@
 import java.awt.*;
+// import java.io.OutputStream;
+// import java.io.PrintStream;
 import javax.swing.*;
 
 public class ATM_interface extends JFrame {
@@ -18,9 +20,25 @@ public class ATM_interface extends JFrame {
         // MyPanel panel = new MyPanel();
         // mainFrame.add(panel);
 
-        KeypadPanel keypadPanel = new KeypadPanel();
+        // JTextArea textArea = new JTextArea();
+        // textArea.setEditable(false);
+        // JScrollPane scrollPane = new JScrollPane(textArea);
+        // mainFrame.add(scrollPane, BorderLayout.CENTER);
 
-        
+        // // Redirect console output to the JTextArea
+        // PrintStream printStream = new PrintStream(new OutputStream() {
+        //     @Override
+        //     public void write(int b) {
+        //         // Append the character to the JTextArea
+        //         textArea.append(String.valueOf((char) b));
+        //         // Scroll to the bottom
+        //         textArea.setCaretPosition(textArea.getDocument().getLength());
+        //     }
+        // });
+        // System.setOut(printStream);
+        // System.setErr(printStream); // Optional: Redirect error output as well
+
+        KeypadPanel keypadPanel = new KeypadPanel();
         // add keypad panel
         mainFrame.add(keypadPanel, BorderLayout.SOUTH);
 
@@ -28,9 +46,9 @@ public class ATM_interface extends JFrame {
         mainFrame.setResizable( false );
     }
 
-    public static void main(String[] args) {
-        new ATM_interface().CreateFrame("ATM");
-    }
+    // public static void main(String[] args) {
+    //     new ATM_interface().CreateFrame("ATM");
+    // }
 }
 
 // class MyPanel extends JPanel {
