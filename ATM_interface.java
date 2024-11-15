@@ -9,21 +9,23 @@ public class ATM_interface extends JFrame {
         mainFrame.setSize(800, 600);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel panel1 = new JPanel();
-        mainFrame.add(panel1, BorderLayout.NORTH);
+        // JPanel panel1 = new JPanel();
+        // mainFrame.add(panel1, BorderLayout.NORTH);
+        
+        // JPanel textinput = new GUI();
+        // mainFrame.add(textinput, BorderLayout.NORTH);
+        
         // MyPanel panel = new MyPanel();
         // mainFrame.add(panel);
 
-        // MyPanel panel = new MyPanel();
-        // MyPanel panel = new MyPanel();
         KeypadPanel keypadPanel = new KeypadPanel();
 
         
-        // keypad panel
-        mainFrame.add(keypadPanel, BorderLayout.WEST);
+        // add keypad panel
+        mainFrame.add(keypadPanel, BorderLayout.SOUTH);
 
         mainFrame.setVisible(true);
-        mainFrame.setResizable( true );
+        mainFrame.setResizable( false );
     }
 
     public static void main(String[] args) {

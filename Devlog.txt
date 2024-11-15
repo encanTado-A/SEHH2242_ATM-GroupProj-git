@@ -82,3 +82,12 @@ Changed Account: added line to credit available balnce for Transfer
 Changed CashDispenser: $20 bills to $100 bills
 Changed Devlog.txt
 1.44 version provided
+
+Nov/15
+Responsibility:Andrew
+It now can respone to the keypad, and project numbers to the JTextField
+Changed ATN_interface.java
+Changed GUI.java
+Changed KeypadPanel.java
+Changed Devlog.txt
+1.46 version provided
