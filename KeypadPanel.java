@@ -13,7 +13,7 @@ public class KeypadPanel extends JPanel
     private JPanel keyPadJPanel;
     // private JTextArea textArea; //text area to display output 
     // private JTextPane textPane;
-    private JTextField textField;
+    public static JTextField textField;
     private String line1 = "";
 
     public KeypadPanel()
@@ -128,6 +128,7 @@ public class KeypadPanel extends JPanel
             }
             else if ( event.getSource() == ENTERKEY )
             {
+                // GUI
                 line1 = line1.concat("\n");
                 textField.setText(line1); 
             }

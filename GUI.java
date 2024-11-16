@@ -32,14 +32,14 @@ public class GUI extends JPanel
         System.setErr(printStream); // Optional: Redirect error output as well
     }
 
+    
     private class handler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // String input = KeypadPanel.textField.getText();
-            // System.out.println(input); // Print the text field input to the console
-            // textField.setText("");      // Clear the text field
+            String input = KeypadPanel.textField.getText();
+            System.out.println(input); // Print the text field input to the console
+            KeypadPanel.textField.setText("");      // Clear the text field
         }
     }
-
 }
