@@ -13,10 +13,19 @@ public class Keypad
    } // end no-argument Keypad constructor
 
    // return an integer value entered by user 
-   public int getInput()
+   public int getInput ()
    {
-      return Screen.getInputGUI();
-      // return input.nextInt(); // we assume that user enters an integer  
+      return Screen.getInputGUI(); // we assume that user enters an integer
+   } // end method getInput
+
+   public int getPasswordInput ()
+   {
+      return Screen.getPasswordInputGUI(); // we assume that user enters an integer
+   } // end method getInput
+
+   public int getMenuOptionInput ()
+   {
+      return Screen.getMenuOptionInputGUI(); // we assume that user enters an integer
    } // end method getInput
 } // end class Keypad  
 

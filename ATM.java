@@ -54,8 +54,10 @@ public class ATM
       screen.displayMessage( "\nPlease enter your account number: " );
       int accountNumber = keypad.getInput(); // input account number
       screen.displayMessage( "\nEnter your PIN: " ); // prompt for PIN
-      int pin = keypad.getInput(); // input PIN
-      
+      screen.setMask( true );
+      int pin = keypad.getPasswordInput(); // input PIN
+      screen.setMask( false );
+
       // set userAuthenticated to boolean value returned by database
       userAuthenticated = 
          bankDatabase.authenticateUser( accountNumber, pin );
@@ -129,7 +131,7 @@ public class ATM
       screen.displayMessageLine( "4 - Transfer funds" );
       screen.displayMessageLine( "9 - Exit\n" );
       screen.displayMessage( "Enter a choice: " );
-      return keypad.getInput(); // return user's selection
+      return keypad.getMenuOptionInput(); // return user's selection
    } // end method displayMainMenu
          
    // return object of specified Transaction subclass
