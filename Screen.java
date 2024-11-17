@@ -237,7 +237,7 @@ public class Screen extends JFrame
       @Override // in ActionListener
       public void actionPerformed ( ActionEvent event )
       {
-        String input = inputField.getText();
+        String input = new String(inputField.getPassword());
          if ( event.getSource() == ENTERKEY )
          {
             if ( line1.length() > 0 )
@@ -251,9 +251,7 @@ public class Screen extends JFrame
                tempInt = Integer.parseInt(input);
 
                while (scanner.hasNext()) {
-                  String command = scanner.next();
-                  // // Do something with the command
-                  // System.out.println("Command: " + command);
+                  scanner.next();
                }
 
                // Clear the text field for new input

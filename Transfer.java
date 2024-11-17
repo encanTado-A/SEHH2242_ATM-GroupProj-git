@@ -121,11 +121,11 @@ public class Transfer extends Transaction {
 
             while (!flagTransferAvailable)
             {
-                screen.displayMessageLine("\nPlease enter the account number that you want to transfer, or enter 0 to cancel the operation");
-                tmpAccountNo = keypad.getInput();
+                screen.displayMessageLine("\nPlease enter the account number that you want to transfer, or enter 9 to cancel the operation");
+                tmpAccountNo = keypad.getMenuOptionInput();
 
                 // user wants to exit transfer action
-                if (tmpAccountNo == 0) {
+                if (tmpAccountNo == 9) {
                     canceled = true;
                     break;
                 } // end if
@@ -191,8 +191,8 @@ public class Transfer extends Transaction {
 
                 screen.displayMessageLine("\nEnter 1 to confirm, "
                                 + "enter 2 to re-input the amount, "
-                                + "or enter 0 to cancel the operation");
-                tmpConfirmation = keypad.getInput();
+                                + "or enter 9 to cancel the operation");
+                tmpConfirmation = keypad.getMenuOptionInput();
 
                 switch (tmpConfirmation)
                 {
