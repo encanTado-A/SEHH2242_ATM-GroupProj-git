@@ -7,7 +7,7 @@ public class ATMCaseStudy
    public static void main( String[] args )
    {
       ATM theATM = new ATM();    
-      new ATM_interface().CreateFrame("ATM");
+      new Screen().CreateFrame("ATM");
       theATM.run();
    } // end main
 } // end class ATMCaseStudy 

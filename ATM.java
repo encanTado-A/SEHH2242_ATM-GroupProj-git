@@ -115,6 +115,7 @@ public class ATM
    private int displayMainMenu()
    {
       int accountType = bankDatabase.getAccountType(currentAccountNumber);
+      // screen.cleanScreen();
       screen.displayMessageLine( "\nMain menu:" );
       screen.displayMessageLine( "1 - View my balance" );
       screen.displayMessageLine( "2 - Withdraw cash" );

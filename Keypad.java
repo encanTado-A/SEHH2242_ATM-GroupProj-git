@@ -15,7 +15,8 @@ public class Keypad
    // return an integer value entered by user 
    public int getInput()
    {
-      return input.nextInt(); // we assume that user enters an integer  
+      return Screen.getInputGUI();
+      // return input.nextInt(); // we assume that user enters an integer  
    } // end method getInput
 } // end class Keypad  
 

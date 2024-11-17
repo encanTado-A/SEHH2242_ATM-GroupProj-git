@@ -101,13 +101,19 @@ public class KeypadPanel extends JPanel
         
         // add for event listen
         ButtonHandler handler = new ButtonHandler();
+        // EnterButtonHandler enterHandler = new EnterButtonHandler();
 
         // stick the action to the button
-        for (int i = 0; i <= 15; i++)
+        for (int i = 0; i < 16; i++)
+        {
+            // if (i == 12)
+            //     continue;
             keys[ i ].addActionListener(handler);
+            
+        }
+        // keys[ 12 ].addActionListener(enterHandler);
 
         add(mainPanel, BorderLayout.CENTER);
-        
     } // end constructor KeypadPanel
     
     // event handler
@@ -126,12 +132,6 @@ public class KeypadPanel extends JPanel
                 line1 = "";
                 textField.setText(line1);
             }
-            else if ( event.getSource() == ENTERKEY )
-            {
-                // GUI
-                line1 = line1.concat("\n");
-                textField.setText(line1); 
-            }
             else
             {
                 line1 = line1.concat( event.getActionCommand() );
@@ -141,33 +141,24 @@ public class KeypadPanel extends JPanel
    } // end ButtonHandler
 
 
-//    event handler
-//    private class ButtonHandler implements ActionListener 
+//    event handler for enter key
+//    private class EnterButtonHandler implements ActionListener 
 //    {
 
 //       @Override // in ActionListener
 //       public void actionPerformed ( ActionEvent event )
 //       {
-//         if ( event.getSource() == CANCELKEY ) 
+//         if ( event.getSource() == ENTERKEY )
 //         {
-//             line1 = "";
-//             textArea.setText(line1);
-//         }
-//         else if ( event.getSource() == CLEARKEY )
-//         {
-//             line1 = "";
-//             textArea.setText(line1);
-//         }
-//         else if ( event.getSource() == ENTERKEY )
-//         {
+//             // Parse the input as an integer
+//             temp = Integer.parseInt(input);
+//             textArea.append("Input received: " + userInput + "\n"); // Display the input in the text area
+//             textField.setText(""); // Clear the text field for new input
+//             // GUI
 //             line1 = line1.concat("\n");
-//             textArea.setText(line1); 
+//             textField.setText(line1); 
 //         }
-//         else
-//         {
-//             line1 = line1.concat( event.getActionCommand() );
-//             textArea.setText(line1);        
-//         }
+
 //       }
 //    } // end ButtonHandler
 
