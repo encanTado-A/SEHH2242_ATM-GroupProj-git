@@ -91,3 +91,19 @@ Changed GUI.java
 Changed KeypadPanel.java
 Changed Devlog.txt
 1.46 version provided
+
+Nov/17
+Responsibility:Andrew
+Changed ATN_interface.java
+Changed GUI.java
+Changed KeypadPanel.java
+Changed Devlog.txt
+2.00 version provided
+
+Nov/18
+Responsibility:Andrew, Lancentary(Ivan)
+Changed ATN_interface.java
+Changed GUI.java
+Changed KeypadPanel.java
+Changed Devlog.txt
+2.10 version provided

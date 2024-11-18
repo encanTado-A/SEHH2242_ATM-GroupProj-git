@@ -37,6 +37,7 @@ public class ATM
          // loop while user is not yet authenticated
          while ( !userAuthenticated ) 
          {
+            screen.cleanScreen();
             screen.displayMessageLine( "\nWelcome!" );       
             authenticateUser(); // authenticate user
          } // end while
@@ -67,10 +68,15 @@ public class ATM
       if ( userAuthenticated )
       {
          currentAccountNumber = accountNumber; // save user's account #
+         screen.dynamicText("Logging in", 50, false);
+         screen.dynamicText("..." , 150 , false);
+         screen.stopRunning(2, false);
       } // end if
       else{
          screen.dynamicText("Invalid account number or PIN. Please try again", 30 , false);
          screen.dynamicText("..." , 150 , false);
+         screen.promptExitInSeconds(3);
+         screen.stopRunning(5, false);
       }
    } // end method authenticateUser
 
@@ -98,9 +104,7 @@ public class ATM
             case TRANSFER: // newly added case for transfer fund function'
 
                // initialize as new object of chosen type
-               currentTransaction = 
-                  createTransaction( mainMenuSelection );
-
+               currentTransaction = createTransaction( mainMenuSelection );
                currentTransaction.execute(); // execute transaction
                break; 
             case EXIT: // user chose to terminate session
@@ -120,7 +124,7 @@ public class ATM
    private int displayMainMenu()
    {
       int accountType = bankDatabase.getAccountType(currentAccountNumber);
-      // screen.cleanScreen();
+      screen.cleanScreen();
       screen.displayMessageLine( "\nMain menu:" );
       screen.displayMessageLine( "1 - View my balance" );
       screen.displayMessageLine( "2 - Withdraw cash" );

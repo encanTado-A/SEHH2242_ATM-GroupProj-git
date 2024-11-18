@@ -71,8 +71,10 @@ public class Withdrawal extends Transaction {
          else // user chose cancel menu option
          {
             screen.displayMessageLine("\nCanceling transaction...");
+            screen.stopRunning(5, false);
             return; // return to main menu because user canceled
          } // end else
+         screen.stopRunning(5, false);
       } while (!cashDispensed);
 
    } // end method execute
@@ -83,7 +85,7 @@ public class Withdrawal extends Transaction {
       int userChoice = 0; // local variable to store return value
 
       Screen screen = getScreen(); // get screen reference
-
+      screen.cleanScreen();
       // array of amounts to correspond to menu numbers
       int amounts[] = { 0, 100, 500, 1000 };
 
@@ -127,7 +129,6 @@ public class Withdrawal extends Transaction {
                screen.displayMessageLine("\nIvalid selection. Try again.");
          } // end switch
       } // end while
-
       return userChoice; // return withdrawal amount or CANCELED
    } // end method displayMenuOfAmounts
 } // end class Withdrawal

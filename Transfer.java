@@ -62,8 +62,14 @@ public class Transfer extends Transaction {
         // store reference number
         addATMTransferRecord(tmpReferenceNo);
 
-        screen.displayMessageLine("Transfer in progress...\n");
+        screen.dynamicText("Transfer in progress" , 50 , false);
+        screen.dynamicText("..." , 150 , false);
+        screen.stopRunning(2, false);
+        screen.cleanScreen();
         screen.displayMessageLine("\nTransfer has completed.");
+        screen.displayMessageLine("From: \tAccount number:\t" + this.getAccountNumber());
+        screen.displayMessageLine("To: \tAccount number:\t" + tmpAccountNo);
+        screen.displayMessageLine("Transfer amount: " + amount);
         screen.displayMessageLine("Reference no.: " + tmpReferenceNo + "\n");
 
         // getATMTransferRecord();
@@ -102,7 +108,7 @@ public class Transfer extends Transaction {
         // get references to bank database and screen
         BankDatabase bankDatabase = getBankDatabase();
         Screen screen = getScreen();
-
+        
         // temporary integer variable for storing user input
         int tmpConfirmation = 0;
         int tmpAccountNo = 0;
@@ -117,12 +123,14 @@ public class Transfer extends Transaction {
         boolean flagConfirmTranscation = false;
         boolean flagTransferSuccess = false;
 
+        screen.cleanScreen();
+
         while (!flagAllClear) {
 
             while (!flagTransferAvailable)
             {
                 screen.displayMessageLine("\nPlease enter the account number that you want to transfer, or enter 9 to cancel the operation");
-                tmpAccountNo = keypad.getMenuOptionInput();
+                tmpAccountNo = keypad.getInput();
 
                 // user wants to exit transfer action
                 if (tmpAccountNo == 9) {
@@ -184,7 +192,7 @@ public class Transfer extends Transaction {
 
             while (!flagTransferSuccess && ((flagTransferAvailable && flagAmountValid) && !canceled))
             {
-                screen.displayMessageLine("Confirm meun:");
+                screen.displayMessageLine("\nConfirm meun:");
                 screen.displayMessageLine("From: \tAccount number:\t" + this.getAccountNumber());
                 screen.displayMessageLine("To: \tAccount number:\t" + tmpAccountNo);
                 screen.displayMessageLine("Transfer amount: " + amount);
@@ -228,10 +236,12 @@ public class Transfer extends Transaction {
         if (flagConfirmTranscation)
         {
             transfer(tmpAccountNo, amount);
+            screen.stopRunning(5, false);
             return;
         } // end if
 
         // exit transaction
         screen.displayMessageLine("\nCanceling transaction...");
+        screen.stopRunning(5, false);
     } // end execute
 } // end Transfer
