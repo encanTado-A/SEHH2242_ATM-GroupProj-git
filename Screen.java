@@ -340,6 +340,51 @@ public class Screen extends JFrame
       tmp = tmp.format("$%,.2f", amount);
       textArea.append( tmp ); 
    } // end method displayDollarAmount 
+
+   public void promptExitInSeconds(int seconds) {
+      // Create a timer for the countdown
+      Timer timer = new Timer(1000, new ActionListener() {
+          int timeLeft = seconds; // Initialize the countdown time
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              if (timeLeft > 0) {
+                  displayMessageLine("This execution will exit in " + timeLeft + " seconds.");
+                  timeLeft--; // Decrement the time left
+              } else {
+                  ((Timer)e.getSource()).stop(); // Stop the timer
+                  cleanScreen(); // Clear the screen after the countdown ends
+              }
+          }
+      });
+      timer.start(); // Start the timer
+   }
+
+   public void stopRunning(int seconds, boolean Mili) {// please make sure that the disrupted time is greater than the prompt exit time at least 2 secs
+      if (Mili) {
+         try {
+            Thread.sleep(seconds); // count as Milisecond
+         } catch (InterruptedException e) {
+            e.printStackTrace();
+         }
+      } else {
+         try {
+            Thread.sleep(seconds * 1000); // count as second
+         } catch (InterruptedException e) {
+            e.printStackTrace();
+         }
+      }
+   }
+
+   public void dynamicText(String message, int Miliseconds , boolean switchLine) {
+      char[] charArray = message.toCharArray();
+      for (char c : charArray) {
+         textArea.append(String.valueOf(c));
+         stopRunning(Miliseconds, true);
+      }
+      if(switchLine){
+         displayMessageLine(" ");
+      }
+   }
 } // end class Screen
 
 

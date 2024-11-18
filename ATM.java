@@ -40,11 +40,12 @@ public class ATM
             screen.displayMessageLine( "\nWelcome!" );       
             authenticateUser(); // authenticate user
          } // end while
-         
          performTransactions(); // user is now authenticated 
          userAuthenticated = false; // reset before next ATM session
          currentAccountNumber = 0; // reset before next ATM session 
-         screen.displayMessageLine( "\nThank you! Goodbye!" );
+         screen.displayMessageLine( "Thank you! Goodbye!" );
+         screen.promptExitInSeconds(3);
+         screen.stopRunning(5, false);
       } // end while   
    } // end method run
 
@@ -67,9 +68,10 @@ public class ATM
       {
          currentAccountNumber = accountNumber; // save user's account #
       } // end if
-      else
-         screen.displayMessageLine( 
-             "Invalid account number or PIN. Please try again." );
+      else{
+         screen.dynamicText("Invalid account number or PIN. Please try again", 30 , false);
+         screen.dynamicText("..." , 150 , false);
+      }
    } // end method authenticateUser
 
    // display the main menu and perform transactions
@@ -102,7 +104,8 @@ public class ATM
                currentTransaction.execute(); // execute transaction
                break; 
             case EXIT: // user chose to terminate session
-               screen.displayMessageLine( "\nExiting the system..." );
+               screen.dynamicText("\nExiting the system", 30 , false);
+               screen.dynamicText("...", 150 , false);
                userExited = true; // this ATM session should end
                break;
             default: // user did not enter an integer from 1-4
