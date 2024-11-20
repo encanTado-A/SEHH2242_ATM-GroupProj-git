@@ -25,8 +25,13 @@ public class Keypad
 
    public int getMenuOptionInput ()
    {
-      return Screen.getMenuOptionInputGUI(); // we assume that user enters an integer
+      return Screen.getMenuOptionInputGUI(); // we assume that user enters through upper panel buttons
    } // end method getInput
+
+   public void keypadInputActivateGUI (boolean onOffSwitch)
+   {
+      Screen.setkeypadInputActivation(onOffSwitch);
+   } // end method keypadInputActivateGUI
 } // end class Keypad  
 
 

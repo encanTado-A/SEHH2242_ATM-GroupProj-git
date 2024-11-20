@@ -9,7 +9,7 @@ public class Withdrawal extends Transaction {
    private CashDispenser cashDispenser; // reference to cash dispenser
 
    // constant corresponding to menu option to cancel
-   private final static int CANCELED = 5;
+   private final static int CANCELED = 9;
 
    // Withdrawal constructor
    public Withdrawal(int userAccountNumber, Screen atmScreen,
@@ -71,7 +71,8 @@ public class Withdrawal extends Transaction {
          else // user chose cancel menu option
          {
             screen.displayMessageLine("\nCanceling transaction...");
-            screen.stopRunning(5, false);
+            screen.promptExitInSeconds(5);
+            screen.stopRunning(7, false);
             return; // return to main menu because user canceled
          } // end else
          screen.stopRunning(5, false);
@@ -97,9 +98,10 @@ public class Withdrawal extends Transaction {
          screen.displayMessageLine("2 - $500");// HK$500
          screen.displayMessageLine("3 - $1000");// HK$1000
          screen.displayMessageLine("4 - Custom amount");
-         screen.displayMessageLine("5 - Cancel transaction");
+         screen.displayMessageLine("9 - Cancel transaction");
          screen.displayMessage("\nChoose a withdrawal amount: ");
 
+         keypad.keypadInputActivateGUI( false );
          int input = keypad.getMenuOptionInput(); // get user input through keypad
 
          // determine how to proceed based on the input value
@@ -110,7 +112,10 @@ public class Withdrawal extends Transaction {
                userChoice = amounts[input]; // save user's choice
                break;
             case 4:
-               screen.displayMessageLine("\nInput the multiples of HKD100 for withdrawal (maximum: $20000), or enter 0 to cancel the operation");
+               screen.displayMessageLine("\nInput the multiples of HKD100 for withdrawal (maximum: $20000)"); 
+               screen.displayMessageLine("or enter 0 to cancel the operation");
+               
+               keypad.keypadInputActivateGUI(true);
                int input_2 = keypad.getInput();
                userChoice = Optional.of(input_2)
                      .filter(x -> x > 0 && x <= 20000 && x % 100 == 0) // checking valid withdrawal
@@ -126,6 +131,7 @@ public class Withdrawal extends Transaction {
                userChoice = CANCELED; // save user's choice
                break;
             default: // the user did not enter a value from 1-6
+               screen.cleanScreen();
                screen.displayMessageLine("\nIvalid selection. Try again.");
          } // end switch
       } // end while

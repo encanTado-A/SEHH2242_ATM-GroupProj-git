@@ -30,6 +30,7 @@ public class SpecAccountFunction extends Transaction
           screen.displayMessageLine( shownLimit );
           screen.displayMessageLine( " " );          
       }
-      screen.stopRunning(5, false);
+      screen.promptExitInSeconds(5);
+      // screen.stopRunning(5, false);
    } // end Method execute
 } // end class SpecAccountFunction

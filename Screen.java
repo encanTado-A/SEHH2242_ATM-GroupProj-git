@@ -3,7 +3,6 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.util.Scanner; // program uses Scanner to obtain user input
 import javax.swing.*;
 
@@ -11,7 +10,9 @@ public class Screen extends JFrame
 {
    public static JTextArea textArea;
    private static JPasswordField inputField;
-   private static String temp = "";
+   private static boolean isPasswordInput = false;
+   private static boolean keypadInputActivate = true;
+
    private static int tempInt = 0;
    private static int option = -1;
 
@@ -26,13 +27,12 @@ public class Screen extends JFrame
 
    private String line1 = "";
 
-   private static boolean isPasswordInput = false;
-
+   // get lower panel keypad button respond
    public static int getInputGUI ()
    {
-      tempInt = 0;
+      tempInt = -1;
       // Wait until a valid input is received
-      while (tempInt == 0) {
+      while (tempInt == -1) {
          try {
                Thread.sleep(100); // Sleep briefly to avoid busy-waiting
          } catch (InterruptedException e) {
@@ -40,14 +40,14 @@ public class Screen extends JFrame
          }
       }
       return tempInt;
-   }
+   } // end static Method getInputGUI
 
    // get lower panel keypad button respond
    public static int getPasswordInputGUI ()
    {
-      tempInt = 0;
+      tempInt = -1;
       // Wait until a valid input is received
-      while (tempInt == 0) {
+      while (tempInt == -1) {
          try {
                Thread.sleep(100); // Sleep briefly to avoid busy-waiting
          } catch (InterruptedException e) {
@@ -55,7 +55,7 @@ public class Screen extends JFrame
          }
       }
       return tempInt;
-   }
+   } // end static Method getPasswordInputGUI
 
    // get upper panel button respond
    public static int getMenuOptionInputGUI ()
@@ -70,9 +70,15 @@ public class Screen extends JFrame
          }
       }
       return option;
-   }
+   } // end static Method getMenuOptionInputGUI
 
-   // set JPasswordField echo
+   // set the keypad availability
+   public static void setkeypadInputActivation (boolean tmp)
+   {
+      keypadInputActivate = tmp;
+   } // end Method setKeypadInputActivate
+
+   // set inputField echo charactor: * or normal display
    public void setMask ( boolean tmp )
    {
       isPasswordInput = tmp;
@@ -80,7 +86,7 @@ public class Screen extends JFrame
          inputField.setEchoChar('*'); // Mask input with '*'
       else
          inputField.setEchoChar( (char) 0 ); // Mask input with '*'
-   }
+   } // end Method setMask
 
    // displays a message without a carriage return
    public void cleanScreen () 
@@ -93,14 +99,14 @@ public class Screen extends JFrame
    public void displayMessage( String message ) 
    {
       textArea.append( message );
-   } // end method displayMessage
+   } // end Method displayMessage
 
    // display a message with a carriage return
    public void displayMessageLine( String message ) 
    {
       message = message.concat( "\n" );
       textArea.append( message );
-   } // end method displayMessageLine
+   } // end Method displayMessageLine
 
    // display a dollar amount
    public void displayDollarAmount( double amount )
@@ -110,6 +116,7 @@ public class Screen extends JFrame
       textArea.append( tmp ); 
    } // end method displayDollarAmount 
 
+   // Automatically clean screen after <int seconds>
    public void promptExitInSeconds(int seconds) {
       // Create a timer for the countdown
       Timer timer = new Timer(1000, new ActionListener() {
@@ -123,12 +130,15 @@ public class Screen extends JFrame
                   ((Timer)e.getSource()).stop(); // Stop the timer
                   cleanScreen(); // Clear the screen after the countdown ends
               }
-          }
-      });
+          } // end Method actionPerformed
+      }); // end class ActionListener
       timer.start(); // Start the timer
-   }
+   } // end Method promptExitInSeconds
 
-   public void stopRunning(int seconds, boolean Mili) {// please make sure that the disrupted time is greater than the prompt exit time at least 2 secs
+   // pause program in <int seconds> or milisecond if <Mili == true>
+   // please make sure that the disrupted time is greater than the prompt exit time at least 2 secs
+   public void stopRunning ( int seconds, boolean Mili )
+   {
       if (Mili) {
          try {
             Thread.sleep(seconds); // count as Milisecond
@@ -142,8 +152,10 @@ public class Screen extends JFrame
             e.printStackTrace();
          }
       }
-   }
+   } // end Method stopRunning
 
+   // display <String message> in a "word by word" style, in the speed <int Miliseconds>. 
+   // next line by <switchLine == true>
    public void dynamicText(String message, int Miliseconds , boolean switchLine) {
       char[] charArray = message.toCharArray();
       for (char c : charArray) {
@@ -153,36 +165,44 @@ public class Screen extends JFrame
       if(switchLine){
          displayMessageLine(" ");
       }
-   }
+   } // end Method dynamicText
 
 
+   
+   // main GUI component creation
    public void CreateFrame(String title) {
 
          JFrame mainFrame = new JFrame(title);
          mainFrame.setSize( 960, 720 ); // width , height
+         mainFrame.setLayout( new BorderLayout() );
          mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         mainFrame.setLocationRelativeTo(null);
-         // mainFrame.setVisible( true );
-         // mainFrame.setResizable( false ); // set fixed windows size
+         mainFrame.setLocationRelativeTo(null); // centre window on run
          
          // ================================
          /*
          * 
          * UPPER PANEL
          * 
+         * upperPanel holds:
+         *     upperLeftPanel:
+         *        Left three JButton object
+         *     scrollPane:
+         *        Screen: JTextArea object
+         *     upperRightPanel:
+         *        Right three JButton object
+         * 
          */
 
-         JPanel upperPanel = new JPanel();
-         textArea = new JTextArea(20, 50);
-         textArea.setEditable(false);
-         JScrollPane scrollPane = new JScrollPane(textArea);
-         upperPanel.add(scrollPane, BorderLayout.CENTER);
+         JPanel upperPanel = new JPanel(  );
+         textArea = new JTextArea( 20, 50 );
+         textArea.setEditable( false );
+         JScrollPane scrollPane = new JScrollPane( textArea );
+         upperPanel.add( scrollPane, BorderLayout.CENTER );
+         upperPanel.setPreferredSize( new Dimension( 450 , 300 ) );
 
          // set textArea color
          textArea.setBackground(Color.decode("#242526"));
          textArea.setForeground(Color.green);
-
-         
 
          PanelHandler panelHandler = new PanelHandler();
          panelkeys = new JButton[6];
@@ -190,21 +210,22 @@ public class Screen extends JFrame
          {
             panelkeys[ i ] = new JButton( String.valueOf( i+1 ) );
             panelkeys[ i ].setPreferredSize( new Dimension(60, 60) ); // width, height
-            panelkeys[ i ].addActionListener(panelHandler);
+            panelkeys[ i ].addActionListener( panelHandler );
          }
 
+         // button 9
          panelkeys[ 5 ] = new JButton( String.valueOf( 9 ) );
          panelkeys[ 5 ].setPreferredSize( new Dimension(60, 60) ); // width, height
          panelkeys[ 5 ].addActionListener( panelHandler );
 
-         // 
+         // left three buttons
          JPanel upperLeftPanel = new JPanel();
          upperLeftPanel.setLayout( new GridLayout( 3 , 1 ) );
          upperLeftPanel.add( panelkeys[0] );
          upperLeftPanel.add( panelkeys[1] );
          upperLeftPanel.add( panelkeys[2] );
          
-         // 
+         // right three buttons
          JPanel upperRightPanel = new JPanel();
          upperRightPanel.setLayout( new GridLayout( 3 , 1 ) );
          upperRightPanel.add( panelkeys[3] );
@@ -222,30 +243,43 @@ public class Screen extends JFrame
          * 
          * FIELD PANEL
          * 
+         * fieldPanel holds:
+         *     inputField: JPasswordField object
+         * 
          */
 
+         JPanel middlePanel = new JPanel(  );
          JPanel fieldPanel = new JPanel( new BorderLayout() );
-         // fieldPanel.setPreferredSize(new Dimension( 5, 10 )); // width, height
-
-         inputField = new JPasswordField( 10 );
-         inputField.setHorizontalAlignment( JTextField.RIGHT ); // Right-align the text
-         inputField.setEchoChar( (char) 0 );
-         fieldPanel.setPreferredSize(new Dimension( 5, 10 )); // width, height
          
-         inputField.setEditable( false );    // set textArea not editable
-         inputField.setText( "Please input from your keypad" );  // display line1 in textArea 
+         fieldPanel.setPreferredSize(new Dimension( 450 , 20 )); // width, height
+         inputField = new JPasswordField( 10 );
+         
+         // general setting of the inputField
+         inputField.setHorizontalAlignment( JTextField.RIGHT ); // Right-align the text
+         inputField.setEchoChar( (char) 0 ); // normal text display
+         inputField.setEditable( false );
+         inputField.setText( "Active input via keypad" );  // display line1 in textArea 
 
-         fieldPanel.add(inputField, BorderLayout.NORTH);
-         mainFrame.add(fieldPanel, BorderLayout.CENTER);
+         // set textArea color
+         inputField.setBackground( Color.decode("#242526") );
+         inputField.setForeground( Color.green );
+
+         fieldPanel.add( inputField, BorderLayout.CENTER );
+         middlePanel.add( fieldPanel );
+         mainFrame.add( middlePanel, BorderLayout.CENTER );
 
          // ================================
          /*
          * 
          * LOWER PANEL
          * 
+         * lowerPanel holds:
+         *     keyPadJPanel:
+         *        16 JBotton object
+         * 
          */
 
-         JPanel lowerPanel = new JPanel(  ); // new BorderLayout()
+         JPanel lowerPanel = new JPanel(  );
          keys = new JButton[ 16 ]; // array keys contains 16 JButtons 
 
          // initialize all digit key buttons
@@ -269,13 +303,13 @@ public class Screen extends JFrame
          // resize button size
          for ( int i = 0; i < 16; i++ )
          {
-            keys[ i ].setPreferredSize(new Dimension( 100, 100 )); // width, height
+            keys[ i ].setPreferredSize( new Dimension( 100, 100 ) ); // width, height
          }
 
-         // set keyPadJPanel layout to grid layout
          this.keyPadJPanel = new JPanel();
-         keyPadJPanel.setPreferredSize(new Dimension( 300 , 300 )); // width, height
 
+         // general setting of the keypad
+         keyPadJPanel.setPreferredSize( new Dimension( 300 , 300 ) ); // width, height
          keyPadJPanel.setLayout( new GridLayout( 4, 4 ) );
 
          // add buttons to keyPadJPanel panel
@@ -307,11 +341,8 @@ public class Screen extends JFrame
          
          // empty button
          keyPadJPanel.add( keys[ 13 ] );
-
-         // lowerPanel.add(textArea, BorderLayout.NORTH);
-         // lowerPanel.add(this.keyPadJPanel, BorderLayout.CENTER );
          
-         // add for event listen
+         // event listener for each button in keypad
          KeypadHandler handler = new KeypadHandler();
          EnterButtonHandler enterHandler = new EnterButtonHandler();
 
@@ -328,20 +359,40 @@ public class Screen extends JFrame
          lowerPanel.add(this.keyPadJPanel, BorderLayout.CENTER);
          mainFrame.add(lowerPanel, BorderLayout.SOUTH);
          // ================================
-
+         // final adjustment of the frame
          mainFrame.setVisible( true );
          mainFrame.setResizable( false ); // set fixed windows size
     } // end Method CreateFrame
 
-    private class KeypadHandler implements ActionListener 
+   // Listener classes
+   /*
+   * upperLeftPanel
+   * upperrightPanel
+   *     PanelHandler
+   * 
+   * keyPadJPanel
+   *     KeypadHandler
+   *     EnterButtonHandler
+   * 
+   */
+   private class KeypadHandler implements ActionListener 
    {
         @Override // in ActionListener
          public void actionPerformed ( ActionEvent event )
          {
             if ( event.getSource() == CANCELKEY ) 
             {
-                line1 = "";
-                inputField.setText(line1);
+               if (keypadInputActivate)
+               {
+                  tempInt = 9;
+               }
+               else
+               {
+                  option = 9;
+               }
+               //  line1 = "";
+                // set -9
+               //  inputField.setText(line1);
             }
             else if ( event.getSource() == CLEARKEY )
             {
@@ -350,10 +401,17 @@ public class Screen extends JFrame
             }
             else
             {
-                line1 = line1.concat( event.getActionCommand() );
-                inputField.setText(line1);        
+               if ( keypadInputActivate )
+               {
+                  line1 = line1.concat( event.getActionCommand() );
+                  inputField.setText(line1);
+               }
+               else
+               {
+               inputField.setText( "Please input via panel button" );  // display line1 in textArea
+               }
             }
-        }
+        } // end Method actionPerformed
    } // end class ButtonHandler
 
    private class PanelHandler implements ActionListener 
@@ -392,8 +450,8 @@ public class Screen extends JFrame
             {
                // throw new Exception("No this fking option okay");  
             }
-        }
-   } // end ButtonHandler
+        } // end Method actionPerformed
+   } // end class ButtonHandler
 
     private class EnterButtonHandler implements ActionListener 
    {
@@ -407,7 +465,7 @@ public class Screen extends JFrame
             if ( line1.length() > 0 )
             {
                System.out.println("Input received: " + input); // This simulates sending to the Scanner
-               if ( !isPasswordInput ) {
+               if ( !isPasswordInput && keypadInputActivate ) {
                   displayMessage( input );
                }
 
@@ -421,6 +479,16 @@ public class Screen extends JFrame
                // Clear the text field for new input
                line1 = "";
                inputField.setText(line1);
+            }
+            else if ( !keypadInputActivate )
+            {
+               inputField.setText( "Please input via panel button" );  // display line1 in textArea
+               line1 = "";
+            }
+            else if ( line1.length() == 0 )
+            {
+               inputField.setText( "Please input via keypad" );  // display line1 in textArea
+               line1 = "";
             }
          }
       } // end Method actionPerformed

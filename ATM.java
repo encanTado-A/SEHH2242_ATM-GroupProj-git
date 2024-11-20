@@ -41,6 +41,7 @@ public class ATM
             screen.displayMessageLine( "\nWelcome!" );       
             authenticateUser(); // authenticate user
          } // end while
+
          performTransactions(); // user is now authenticated 
          userAuthenticated = false; // reset before next ATM session
          currentAccountNumber = 0; // reset before next ATM session 
@@ -54,6 +55,7 @@ public class ATM
    private void authenticateUser() 
    {
       screen.displayMessage( "\nPlease enter your account number: " );
+      keypad.keypadInputActivateGUI( true );
       int accountNumber = keypad.getInput(); // input account number
       screen.displayMessage( "\nEnter your PIN: " ); // prompt for PIN
       screen.setMask( true );
@@ -74,7 +76,7 @@ public class ATM
       } // end if
       else{
          screen.dynamicText("Invalid account number or PIN. Please try again", 30 , false);
-         screen.dynamicText("..." , 150 , false);
+         screen.dynamicText("..." , 150 , true);
          screen.promptExitInSeconds(3);
          screen.stopRunning(5, false);
       }
@@ -92,6 +94,7 @@ public class ATM
       while ( !userExited )
       {     
          // show main menu and get user selection
+         keypad.keypadInputActivateGUI( false );
          int mainMenuSelection = displayMainMenu();
 
          // decide how to proceed based on user's menu selection
@@ -154,6 +157,7 @@ public class ATM
                currentAccountNumber, screen, bankDatabase );
             break;
          case WITHDRAWAL: // create new Withdrawal transaction
+            keypad.keypadInputActivateGUI( true );
             temp = new Withdrawal( currentAccountNumber, screen, 
                bankDatabase, keypad, cashDispenser );
             break; 
@@ -161,6 +165,7 @@ public class ATM
             temp = new SpecAccountFunction( currentAccountNumber, screen, bankDatabase);
             break;
          case TRANSFER:
+            keypad.keypadInputActivateGUI( true );
             temp = new Transfer( currentAccountNumber, screen, bankDatabase, keypad );
             break;
       } // end switch

@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Transfer extends Transaction {
-    private Keypad keypad; // reference to keypad
     private static ArrayList<UUID> transactionRecord = new ArrayList<>();
+    private Keypad keypad; // reference to keypad
+    private int CANCEL = -9;
 
     // Transfer constractor
     public Transfer( int userAccountNumber, Screen atmScreen,
@@ -129,11 +130,13 @@ public class Transfer extends Transaction {
 
             while (!flagTransferAvailable)
             {
-                screen.displayMessageLine("\nPlease enter the account number that you want to transfer, or enter 9 to cancel the operation");
+                screen.displayMessageLine("\nPlease enter the account number that you want to transfer");
+                screen.displayMessageLine("enter keypad CANCEL to cancel the operation");
+                keypad.keypadInputActivateGUI( true );
                 tmpAccountNo = keypad.getInput();
 
                 // user wants to exit transfer action
-                if (tmpAccountNo == 9) {
+                if (tmpAccountNo == CANCEL) {
                     canceled = true;
                     break;
                 } // end if
@@ -147,7 +150,7 @@ public class Transfer extends Transaction {
                 } // end if
 
                 // check if the recipient account does not exist
-                flagUserExist = checkAccountExist(tmpAccountNo);
+                flagUserExist = checkAccountExist( tmpAccountNo );
 
                 if (flagUserExist == false || tmpAccountNo == this.getAccountNumber() )
                 {
@@ -167,13 +170,15 @@ public class Transfer extends Transaction {
                 screen.displayMessageLine("\n");
 
                 // get transfer amount
-                screen.displayMessageLine("Please enter the amount (in cent) you wish to transfer, or enter 0 to cancel the operation");
+                screen.displayMessageLine("Please enter the amount (in cent) you wish to transfer");
+                screen.displayMessageLine("enter keypad CANCEL to cancel the operation");
                 screen.displayMessageLine("E.g. amount 100 = 1.00");
+                keypad.keypadInputActivateGUI( true );
                 amount = keypad.getInput();
                 amount = amount / 100;
 
                 // user wants to exit transfer action
-                if (amount == 0)
+                if (amount == CANCEL)
                 {
                     canceled = true;
                     break; // exit the while loop and exited
@@ -197,9 +202,10 @@ public class Transfer extends Transaction {
                 screen.displayMessageLine("To: \tAccount number:\t" + tmpAccountNo);
                 screen.displayMessageLine("Transfer amount: " + amount);
 
-                screen.displayMessageLine("\nEnter 1 to confirm, "
-                                + "enter 2 to re-input the amount, "
-                                + "or enter 9 to cancel the operation");
+                screen.displayMessageLine("\nEnter panel key 1 to confirm, "
+                                + "\nenter panel key 2 to re-input the amount, "
+                                + "\nor enter panel key 9 to cancel the operation");
+                keypad.keypadInputActivateGUI( false );
                 tmpConfirmation = keypad.getMenuOptionInput();
 
                 switch (tmpConfirmation)
