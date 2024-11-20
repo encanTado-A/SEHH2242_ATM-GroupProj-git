@@ -213,10 +213,7 @@ public class Screen extends JFrame
             panelkeys[ i ].addActionListener( panelHandler );
          }
 
-         // button 9
-         panelkeys[ 5 ] = new JButton( String.valueOf( 9 ) );
-         panelkeys[ 5 ].setPreferredSize( new Dimension(60, 60) ); // width, height
-         panelkeys[ 5 ].addActionListener( panelHandler );
+         panelkeys[ 5 ] = new JButton( "" );
 
          // left three buttons
          JPanel upperLeftPanel = new JPanel();
@@ -289,9 +286,9 @@ public class Screen extends JFrame
          }
 
          // initialize all function key buttons
-         this.CANCELKEY = new JButton( "Cancel" );
-         this.CLEARKEY = new JButton( "Clear" );
-         this.ENTERKEY = new JButton( "Enter" );
+         this.CANCELKEY = new JButton( "CANCEL" );
+         this.CLEARKEY = new JButton( "CLEAR" );
+         this.ENTERKEY = new JButton( "ENTER" );
 
          keys[ 10 ] = this.CANCELKEY; // cancel
          keys[ 11 ] = this.CLEARKEY; // 
@@ -309,7 +306,7 @@ public class Screen extends JFrame
          this.keyPadJPanel = new JPanel();
 
          // general setting of the keypad
-         keyPadJPanel.setPreferredSize( new Dimension( 300 , 300 ) ); // width, height
+         keyPadJPanel.setPreferredSize( new Dimension( 350 , 350 ) ); // width, height
          keyPadJPanel.setLayout( new GridLayout( 4, 4 ) );
 
          // add buttons to keyPadJPanel panel

@@ -71,8 +71,8 @@ public class Withdrawal extends Transaction {
          else // user chose cancel menu option
          {
             screen.displayMessageLine("\nCanceling transaction...");
-            screen.promptExitInSeconds(5);
-            screen.stopRunning(7, false);
+            screen.promptExitInSeconds(3);
+            screen.stopRunning(5, false);
             return; // return to main menu because user canceled
          } // end else
          screen.stopRunning(5, false);
@@ -98,7 +98,7 @@ public class Withdrawal extends Transaction {
          screen.displayMessageLine("2 - $500");// HK$500
          screen.displayMessageLine("3 - $1000");// HK$1000
          screen.displayMessageLine("4 - Custom amount");
-         screen.displayMessageLine("9 - Cancel transaction");
+         screen.displayMessageLine("CANCEL - Cancel transaction");
          screen.displayMessage("\nChoose a withdrawal amount: ");
 
          keypad.keypadInputActivateGUI( false );

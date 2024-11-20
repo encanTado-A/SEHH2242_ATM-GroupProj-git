@@ -171,7 +171,7 @@ public class Transfer extends Transaction {
 
                 // get transfer amount
                 screen.displayMessageLine("Please enter the amount (in cent) you wish to transfer");
-                screen.displayMessageLine("enter keypad CANCEL to cancel the operation");
+                screen.displayMessageLine("press CANCEL to cancel the operation");
                 screen.displayMessageLine("E.g. amount 100 = 1.00");
                 keypad.keypadInputActivateGUI( true );
                 amount = keypad.getInput();
@@ -204,7 +204,7 @@ public class Transfer extends Transaction {
 
                 screen.displayMessageLine("\nEnter panel key 1 to confirm, "
                                 + "\nenter panel key 2 to re-input the amount, "
-                                + "\nor enter panel key 9 to cancel the operation");
+                                + "\nor press CANCEL to cancel the operation");
                 keypad.keypadInputActivateGUI( false );
                 tmpConfirmation = keypad.getMenuOptionInput();
 

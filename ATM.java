@@ -139,8 +139,8 @@ public class ATM
           screen.displayMessageLine( "3 - View cheque limit" );
       }
       screen.displayMessageLine( "4 - Transfer funds" );
-      screen.displayMessageLine( "9 - Exit\n" );
-      screen.displayMessage( "Enter a choice: " );
+      screen.displayMessageLine( "CANCEL - Exit\n" );
+      screen.displayMessage( "Enter a choice in panel button: " );
       return keypad.getMenuOptionInput(); // return user's selection
    } // end method displayMainMenu
          
