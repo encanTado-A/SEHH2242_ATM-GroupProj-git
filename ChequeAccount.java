@@ -1,6 +1,4 @@
 //newly added subclass of account type - cheque account
-import java.util.Scanner;
-import java.util.InputMismatchException;
 
 public class ChequeAccount extends Account
 {

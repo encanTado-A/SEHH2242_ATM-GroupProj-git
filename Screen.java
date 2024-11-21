@@ -12,6 +12,7 @@ public class Screen extends JFrame
    private static JPasswordField inputField;
    private static boolean isPasswordInput = false;
    private static boolean keypadInputActivate = true;
+   private static boolean availableCancelKey = false;
 
    private static int tempInt = 0;
    private static int option = -1;
@@ -64,7 +65,7 @@ public class Screen extends JFrame
       // Wait until a valid input is received
       while (option == -1) {
          try {
-               Thread.sleep(500); // Sleep briefly to avoid busy-waiting
+               Thread.sleep(100); // Sleep briefly to avoid busy-waiting
          } catch (InterruptedException e) {
                e.printStackTrace();
          }
@@ -73,7 +74,7 @@ public class Screen extends JFrame
    } // end static Method getMenuOptionInputGUI
 
    // set the keypad availability
-   public static void setkeypadInputActivation (boolean tmp)
+   public static void setKeypadInputActivateGUI (boolean tmp)
    {
       keypadInputActivate = tmp;
    } // end Method setKeypadInputActivate
@@ -88,6 +89,10 @@ public class Screen extends JFrame
          inputField.setEchoChar( (char) 0 ); // Mask input with '*'
    } // end Method setMask
 
+   //set when can switch on the function of cancel key
+   public static void setCancelKeyActivateGUI (boolean switch_1){
+      availableCancelKey = switch_1 ? true : false;
+   }
    // displays a message without a carriage return
    public void cleanScreen () 
    {
@@ -166,8 +171,6 @@ public class Screen extends JFrame
          displayMessageLine(" ");
       }
    } // end Method dynamicText
-
-
    
    // main GUI component creation
    public void CreateFrame(String title) {
@@ -351,6 +354,7 @@ public class Screen extends JFrame
             keys[ i ].addActionListener(handler);
          }
 
+         // 
          keys[ 12 ].addActionListener(enterHandler);
 
          lowerPanel.add(this.keyPadJPanel, BorderLayout.CENTER);
@@ -379,17 +383,11 @@ public class Screen extends JFrame
          {
             if ( event.getSource() == CANCELKEY ) 
             {
-               if (keypadInputActivate)
+               if ( availableCancelKey )
                {
-                  tempInt = 9;
+                  tempInt = -9;
+                  option = -9;
                }
-               else
-               {
-                  option = 9;
-               }
-               //  line1 = "";
-                // set -9
-               //  inputField.setText(line1);
             }
             else if ( event.getSource() == CLEARKEY )
             {
@@ -438,15 +436,15 @@ public class Screen extends JFrame
             {
                option = 5;
             }
-            else if ( event.getSource() == panelkeys[5] )
-            {
-               option = 9;
+            // else if ( event.getSource() == panelkeys[5] )
+            // {
+            //    option = 9;
 
-            }
-            else
-            {
-               // throw new Exception("No this fking option okay");  
-            }
+            // }
+            // else
+            // {
+            //    // throw new Exception("No this fking option okay");  
+            // }
         } // end Method actionPerformed
    } // end class ButtonHandler
 
@@ -465,7 +463,7 @@ public class Screen extends JFrame
                if ( !isPasswordInput && keypadInputActivate ) {
                   displayMessage( input );
                }
-
+               
                Scanner scanner = new Scanner(input); // Create a new Scanner with the input
                tempInt = Integer.parseInt(input);
 

@@ -28,10 +28,15 @@ public class Keypad
       return Screen.getMenuOptionInputGUI(); // we assume that user enters through upper panel buttons
    } // end method getInput
 
-   public void keypadInputActivateGUI (boolean onOffSwitch)
+   public void setKeypadInputActivate (boolean onOffSwitch)
    {
-      Screen.setkeypadInputActivation(onOffSwitch);
-   } // end method keypadInputActivateGUI
+      Screen.setKeypadInputActivateGUI(onOffSwitch);
+   } // end method keypadInputActivate
+
+   public void setCancelKeyActivate (boolean tmp)
+   {
+      Screen.setCancelKeyActivateGUI(tmp);
+   }
 } // end class Keypad  
 
 

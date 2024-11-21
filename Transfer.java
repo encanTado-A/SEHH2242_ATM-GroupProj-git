@@ -7,7 +7,7 @@ import java.util.UUID;
 public class Transfer extends Transaction {
     private static ArrayList<UUID> transactionRecord = new ArrayList<>();
     private Keypad keypad; // reference to keypad
-    private int CANCEL = -9;
+    private final int CANCEL = -9;
 
     // Transfer constractor
     public Transfer( int userAccountNumber, Screen atmScreen,
@@ -65,7 +65,7 @@ public class Transfer extends Transaction {
 
         screen.dynamicText("Transfer in progress" , 50 , false);
         screen.dynamicText("..." , 150 , false);
-        screen.stopRunning(2, false);
+        screen.stopRunning(3, false);
         screen.cleanScreen();
         screen.displayMessageLine("\nTransfer has completed.");
         screen.displayMessageLine("From: \tAccount number:\t" + this.getAccountNumber());
@@ -131,9 +131,10 @@ public class Transfer extends Transaction {
             while (!flagTransferAvailable)
             {
                 screen.displayMessageLine("\nPlease enter the account number that you want to transfer");
-                screen.displayMessageLine("enter keypad CANCEL to cancel the operation");
-                keypad.keypadInputActivateGUI( true );
+                screen.displayMessageLine("\nOr press CANCEL to cancel the operation");
+                keypad.setKeypadInputActivate( true );
                 tmpAccountNo = keypad.getInput();
+                keypad.setKeypadInputActivate( false );
 
                 // user wants to exit transfer action
                 if (tmpAccountNo == CANCEL) {
@@ -146,6 +147,9 @@ public class Transfer extends Transaction {
                 {
                     screen.displayMessageLine("\nInsufficient balance to transfer.");
                     canceled = true;
+                    screen.promptExitInSeconds(3);
+                    screen.stopRunning(5, false);
+                    screen.cleanScreen();
                     break;
                 } // end if
 
@@ -156,6 +160,8 @@ public class Transfer extends Transaction {
                 {
                     screen.displayMessageLine("\nInvalid account number."
                                             + "\nplease try again.");
+                    screen.stopRunning(3, false);
+                    screen.cleanScreen();
                     continue;
                 } // end if
 
@@ -164,6 +170,7 @@ public class Transfer extends Transaction {
 
             while (flagTransferAvailable && !flagAmountValid)
             {
+                screen.cleanScreen();
                 // diplay the presented account amount
                 screen.displayMessage("\nAvailable balance: ");
                 screen.displayDollarAmount(bankDatabase.getAvailableBalance(this.getAccountNumber()));
@@ -171,20 +178,22 @@ public class Transfer extends Transaction {
 
                 // get transfer amount
                 screen.displayMessageLine("Please enter the amount (in cent) you wish to transfer");
-                screen.displayMessageLine("press CANCEL to cancel the operation");
                 screen.displayMessageLine("E.g. amount 100 = 1.00");
-                keypad.keypadInputActivateGUI( true );
+                screen.displayMessageLine("\nOr press CANCEL to cancel the operation");
+                keypad.setKeypadInputActivate( true );
                 amount = keypad.getInput();
-                amount = amount / 100;
+                keypad.setKeypadInputActivate( false );
 
                 // user wants to exit transfer action
                 if (amount == CANCEL)
                 {
                     canceled = true;
                     break; // exit the while loop and exited
+                }else{
+                    amount = amount / 100;
                 }
 
-                if (bankDatabase.getAvailableBalance(this.getAccountNumber()) < amount)
+                if (bankDatabase.getAvailableBalance( this.getAccountNumber() ) < amount)
                 {
                     screen.displayMessageLine("\nInsufficient balance. Please try again");
                     // re-prompt again to let user input
@@ -197,20 +206,22 @@ public class Transfer extends Transaction {
 
             while (!flagTransferSuccess && ((flagTransferAvailable && flagAmountValid) && !canceled))
             {
+                screen.cleanScreen();
                 screen.displayMessageLine("\nConfirm meun:");
                 screen.displayMessageLine("From: \tAccount number:\t" + this.getAccountNumber());
                 screen.displayMessageLine("To: \tAccount number:\t" + tmpAccountNo);
                 screen.displayMessageLine("Transfer amount: " + amount);
 
                 screen.displayMessageLine("\nEnter panel key 1 to confirm, "
-                                + "\nenter panel key 2 to re-input the amount, "
-                                + "\nor press CANCEL to cancel the operation");
-                keypad.keypadInputActivateGUI( false );
-                tmpConfirmation = keypad.getMenuOptionInput();
+                                + "\nEnter panel key 2 to re-input the amount, "
+                                + "\n\nOr press CANCEL to cancel the operation");
 
+                keypad.setCancelKeyActivate( true );
+                tmpConfirmation = keypad.getMenuOptionInput();
+                
                 switch (tmpConfirmation)
                 {
-                    case 0:
+                    case CANCEL:
                         // cancel transaction and exit
                         canceled = true;                        
                         break;
@@ -247,7 +258,9 @@ public class Transfer extends Transaction {
         } // end if
 
         // exit transaction
-        screen.displayMessageLine("\nCanceling transaction...");
+        screen.dynamicText("\nCanceling transaction" , 50 , false);
+        screen.dynamicText("...", 150, false);
+        screen.promptExitInSeconds(3);
         screen.stopRunning(5, false);
     } // end execute
 } // end Transfer

@@ -15,7 +15,7 @@ public class ATM
    private static final int WITHDRAWAL = 2;
    private static final int ACCFUNC = 3; //newly added to do specific account functions
    private static final int TRANSFER = 4;
-   private static final int EXIT = 9;
+   private static final int EXIT = -9;
 
    // no-argument ATM constructor initializes instance variables
    public ATM() 
@@ -54,8 +54,9 @@ public class ATM
    // attempts to authenticate user against database
    private void authenticateUser() 
    {
+      keypad.setCancelKeyActivate(false);
       screen.displayMessage( "\nPlease enter your account number: " );
-      keypad.keypadInputActivateGUI( true );
+      keypad.setKeypadInputActivate( true );
       int accountNumber = keypad.getInput(); // input account number
       screen.displayMessage( "\nEnter your PIN: " ); // prompt for PIN
       screen.setMask( true );
@@ -94,7 +95,7 @@ public class ATM
       while ( !userExited )
       {     
          // show main menu and get user selection
-         keypad.keypadInputActivateGUI( false );
+         keypad.setKeypadInputActivate( false );
          int mainMenuSelection = displayMainMenu();
 
          // decide how to proceed based on user's menu selection
@@ -128,6 +129,7 @@ public class ATM
    {
       int accountType = bankDatabase.getAccountType(currentAccountNumber);
       screen.cleanScreen();
+      keypad.setCancelKeyActivate( true );
       screen.displayMessageLine( "\nMain menu:" );
       screen.displayMessageLine( "1 - View my balance" );
       screen.displayMessageLine( "2 - Withdraw cash" );
@@ -157,7 +159,7 @@ public class ATM
                currentAccountNumber, screen, bankDatabase );
             break;
          case WITHDRAWAL: // create new Withdrawal transaction
-            keypad.keypadInputActivateGUI( true );
+            keypad.setKeypadInputActivate( true );
             temp = new Withdrawal( currentAccountNumber, screen, 
                bankDatabase, keypad, cashDispenser );
             break; 
@@ -165,7 +167,7 @@ public class ATM
             temp = new SpecAccountFunction( currentAccountNumber, screen, bankDatabase);
             break;
          case TRANSFER:
-            keypad.keypadInputActivateGUI( true );
+            keypad.setKeypadInputActivate( true );
             temp = new Transfer( currentAccountNumber, screen, bankDatabase, keypad );
             break;
       } // end switch

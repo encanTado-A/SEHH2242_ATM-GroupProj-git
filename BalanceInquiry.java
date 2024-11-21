@@ -17,13 +17,14 @@ public class BalanceInquiry extends Transaction
       BankDatabase bankDatabase = getBankDatabase();
       Screen screen = getScreen();
       screen.cleanScreen();
+      
       // get the available balance for the account involved
       double availableBalance = 
-         bankDatabase.getAvailableBalance( getAccountNumber() );
+      bankDatabase.getAvailableBalance( getAccountNumber() );
 
       // get the total balance for the account involved
       double totalBalance = 
-         bankDatabase.getTotalBalance( getAccountNumber() );
+      bankDatabase.getTotalBalance( getAccountNumber() );
       screen.cleanScreen();// clear the previous message
       // display the balance information on the screen
       screen.displayMessageLine( "\nBalance Information:" );
@@ -31,9 +32,10 @@ public class BalanceInquiry extends Transaction
       screen.displayDollarAmount( availableBalance );
       screen.displayMessage( "\n - Total balance:     " );
       screen.displayDollarAmount( totalBalance );
-      screen.displayMessageLine( "" );
+      screen.displayMessageLine( "\n" );
+      screen.promptExitInSeconds(3);
       screen.stopRunning(5, false);
-   } // end method execute
+      } // end method execute
 } // end class BalanceInquiry
 
 

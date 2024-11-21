@@ -9,7 +9,7 @@ public class Withdrawal extends Transaction {
    private CashDispenser cashDispenser; // reference to cash dispenser
 
    // constant corresponding to menu option to cancel
-   private final static int CANCELED = 9;
+   private final static int CANCELED = -9;
 
    // Withdrawal constructor
    public Withdrawal(int userAccountNumber, Screen atmScreen,
@@ -31,7 +31,7 @@ public class Withdrawal extends Transaction {
       // get references to bank database and screen
       BankDatabase bankDatabase = getBankDatabase();
       Screen screen = getScreen();
-
+   
       // loop until cash is dispensed or the user cancels
       do {
          // obtain a chosen withdrawal amount from the user
@@ -53,6 +53,10 @@ public class Withdrawal extends Transaction {
                   cashDispensed = true; // cash was dispensed
 
                   // instruct user to take cash
+               screen.dynamicText("\nProcesssing", 50, false);
+               screen.dynamicText("...", 150, false);
+               screen.stopRunning(3, false);
+               screen.cleanScreen();
                   screen.displayMessageLine(
                         "\nPlease take your cash now.");
                } // end if
@@ -70,9 +74,9 @@ public class Withdrawal extends Transaction {
          } // end if
          else // user chose cancel menu option
          {
-            screen.displayMessageLine("\nCanceling transaction...");
-            screen.promptExitInSeconds(3);
-            screen.stopRunning(5, false);
+            screen.dynamicText("Canceling transaction", 50 , false);
+            screen.dynamicText("..." , 150 ,true);
+            screen.stopRunning(3, false);
             return; // return to main menu because user canceled
          } // end else
          screen.stopRunning(5, false);
@@ -101,7 +105,7 @@ public class Withdrawal extends Transaction {
          screen.displayMessageLine("CANCEL - Cancel transaction");
          screen.displayMessage("\nChoose a withdrawal amount: ");
 
-         keypad.keypadInputActivateGUI( false );
+         keypad.setKeypadInputActivate( false );
          int input = keypad.getMenuOptionInput(); // get user input through keypad
 
          // determine how to proceed based on the input value
@@ -112,19 +116,21 @@ public class Withdrawal extends Transaction {
                userChoice = amounts[input]; // save user's choice
                break;
             case 4:
-               screen.displayMessageLine("\nInput the multiples of HKD100 for withdrawal (maximum: $20000)"); 
-               screen.displayMessageLine("or enter 0 to cancel the operation");
+               screen.cleanScreen();
+               screen.displayMessageLine("\nInput the multiples of HKD100 for withdrawal (maximum: $20000)");
+               screen.displayMessageLine("\nOr press CANCEL to cancel the operation");
                
-               keypad.keypadInputActivateGUI(true);
+               keypad.setKeypadInputActivate(true);
                int input_2 = keypad.getInput();
                userChoice = Optional.of(input_2)
                      .filter(x -> x > 0 && x <= 20000 && x % 100 == 0) // checking valid withdrawal
                      .orElseGet(() -> Optional.of(input_2) // Using nested Optional checks to verify valid case "0" or invalid case
-                           .filter(x -> x == 0) // check whether is 0
-                           .map(x -> 0) // if 0, return 0 to userChoice to go back withdrawal menu
+                           .filter(x -> x == -9) // check whether is 0
+                           .map(x -> -9) // if -9, return -9 to userChoice to go back withdrawal menu
                            .orElseGet(() -> {
-                              screen.displayMessageLine("\nInvalid input, operation cancel process launching");// prompt user that is invalid case
-                              return 0; // return 0 to userChoice to go back withdrawal menu
+                              screen.dynamicText("\nOperation cancel process launching" , 50 , false);// prompt user 
+                              screen.dynamicText("..." , 150 , false);
+                              return -9; // return 0 to userChoice to go back withdrawal menu
                            }));
                break;
             case CANCELED: // the user chose to cancel
@@ -132,7 +138,7 @@ public class Withdrawal extends Transaction {
                break;
             default: // the user did not enter a value from 1-6
                screen.cleanScreen();
-               screen.displayMessageLine("\nIvalid selection. Try again.");
+               screen.displayMessageLine("\nInvalid selection. Try again.");
          } // end switch
       } // end while
       return userChoice; // return withdrawal amount or CANCELED

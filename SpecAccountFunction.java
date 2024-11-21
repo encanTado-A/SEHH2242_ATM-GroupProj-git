@@ -12,6 +12,7 @@ public class SpecAccountFunction extends Transaction
       BankDatabase bankDatabase = getBankDatabase();
       Screen screen = getScreen();
       screen.cleanScreen();
+      
       int userAccountNumber = getAccountNumber();
       int accountType = bankDatabase.getAccountType(userAccountNumber); //get account type
       if (accountType == 1) { //shows the interest rate if its a saving account
@@ -30,7 +31,8 @@ public class SpecAccountFunction extends Transaction
           screen.displayMessageLine( shownLimit );
           screen.displayMessageLine( " " );          
       }
-      screen.promptExitInSeconds(5);
+      screen.promptExitInSeconds(3);
+      screen.stopRunning(5, false);
       // screen.stopRunning(5, false);
    } // end Method execute
 } // end class SpecAccountFunction
