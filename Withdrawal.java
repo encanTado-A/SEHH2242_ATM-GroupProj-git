@@ -113,13 +113,13 @@ public class Withdrawal extends Transaction {
             case 1: // if the user chose a withdrawal amount
             case 2: // (i.e., chose option 1, 2, 3), return the
             case 3: // corresponding amount from amounts array
+               screen.cleanScreen();
                userChoice = amounts[input]; // save user's choice
                break;
             case 4:
                screen.cleanScreen();
                screen.displayMessageLine("\nInput the multiples of HKD100 for withdrawal (maximum: $20000)");
                screen.displayMessageLine("\nOr press CANCEL to cancel the operation");
-               
                keypad.setKeypadInputActivate(true);
                int input_2 = keypad.getInput();
                userChoice = Optional.of(input_2)
@@ -128,8 +128,8 @@ public class Withdrawal extends Transaction {
                            .filter(x -> x == -9) // check whether is 0
                            .map(x -> -9) // if -9, return -9 to userChoice to go back withdrawal menu
                            .orElseGet(() -> {
-                              screen.dynamicText("\nOperation cancel process launching" , 50 , false);// prompt user 
-                              screen.dynamicText("..." , 150 , false);
+                              screen.dynamicText("\nInvalid input value, operation cancel process launching" , 50 , false);// prompt user 
+                              screen.dynamicText("..." , 150 , true);
                               return -9; // return 0 to userChoice to go back withdrawal menu
                            }));
                break;

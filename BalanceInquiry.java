@@ -33,6 +33,7 @@ public class BalanceInquiry extends Transaction
       screen.displayMessage( "\n - Total balance:     " );
       screen.displayDollarAmount( totalBalance );
       screen.displayMessageLine( "\n" );
+      screen.stopRunning(2, false);
       screen.promptExitInSeconds(3);
       screen.stopRunning(5, false);
       } // end method execute

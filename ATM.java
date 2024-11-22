@@ -45,7 +45,7 @@ public class ATM
          performTransactions(); // user is now authenticated 
          userAuthenticated = false; // reset before next ATM session
          currentAccountNumber = 0; // reset before next ATM session 
-         screen.displayMessageLine( "Thank you! Goodbye!" );
+         screen.dynamicText("\nThank you! Goodbye!\nRemember to take your card!\n" , 50 , true);
          screen.promptExitInSeconds(3);
          screen.stopRunning(5, false);
       } // end while   
@@ -55,7 +55,7 @@ public class ATM
    private void authenticateUser() 
    {
       keypad.setCancelKeyActivate(false);
-      screen.displayMessage( "\nPlease enter your account number: " );
+      screen.displayMessage( "\nPlease insert your card and enter your account number: " );
       keypad.setKeypadInputActivate( true );
       int accountNumber = keypad.getInput(); // input account number
       screen.displayMessage( "\nEnter your PIN: " ); // prompt for PIN
@@ -114,6 +114,8 @@ public class ATM
             case EXIT: // user chose to terminate session
                screen.dynamicText("\nExiting the system", 30 , false);
                screen.dynamicText("...", 150 , false);
+               screen.stopRunning(3, false);
+               screen.cleanScreen();
                userExited = true; // this ATM session should end
                break;
             default: // user did not enter an integer from 1-4

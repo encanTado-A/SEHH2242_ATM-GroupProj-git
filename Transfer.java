@@ -145,7 +145,7 @@ public class Transfer extends Transaction {
                 // check if user have not enough amount to transfer
                 if (checkAvailableBalance() == false)
                 {
-                    screen.displayMessageLine("\nInsufficient balance to transfer.");
+                    screen.displayMessageLine("\nInsufficient balance to transfer.\n");
                     canceled = true;
                     screen.promptExitInSeconds(3);
                     screen.stopRunning(5, false);
@@ -260,7 +260,6 @@ public class Transfer extends Transaction {
         // exit transaction
         screen.dynamicText("\nCanceling transaction" , 50 , false);
         screen.dynamicText("...", 150, false);
-        screen.promptExitInSeconds(3);
-        screen.stopRunning(5, false);
+        screen.stopRunning(3, false);
     } // end execute
 } // end Transfer
