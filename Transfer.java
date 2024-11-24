@@ -188,7 +188,12 @@ public class Transfer extends Transaction {
                 {
                     canceled = true;
                     break; // exit the while loop and exited
-                }else{
+                } else if (amount <= 0) 
+                {
+                    screen.displayMessageLine("\nInvaild amount. Please try again");
+                    screen.stopRunning(3, false);
+                    continue;
+                } else{
                     amount = amount / 100;
                 }
 
