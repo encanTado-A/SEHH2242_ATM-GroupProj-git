@@ -147,8 +147,7 @@ public class Transfer extends Transaction {
                 {
                     screen.displayMessageLine("\nInsufficient balance to transfer.\n");
                     canceled = true;
-                    screen.promptExitInSeconds(3);
-                    screen.stopRunning(5, false);
+                    screen.stopRunning(3, false);
                     screen.cleanScreen();
                     break;
                 } // end if
@@ -196,7 +195,7 @@ public class Transfer extends Transaction {
                 if (bankDatabase.getAvailableBalance( this.getAccountNumber() ) < amount)
                 {
                     screen.displayMessageLine("\nInsufficient balance. Please try again");
-                    // re-prompt again to let user input
+                    screen.stopRunning(3, false);
                     continue;
                 }
 
@@ -235,6 +234,7 @@ public class Transfer extends Transaction {
                     default:
                         screen.displayMessageLine("Invalid option."
                                                     + "Please try again");
+                        screen.stopRunning(3, false);
                         continue;
                         // throw new AssertionError();
                 } // end switch

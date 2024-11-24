@@ -161,11 +161,11 @@ public class Screen extends JFrame
 
    // display <String message> in a "word by word" style, in the speed <int Miliseconds>. 
    // next line by <switchLine == true>
-   public void dynamicText(String message, int Miliseconds , boolean switchLine) {
+   public void dynamicText(String message, int Milliseconds , boolean switchLine) {
       char[] charArray = message.toCharArray();
       for (char c : charArray) {
          textArea.append(String.valueOf(c));
-         stopRunning(Miliseconds, true);
+         stopRunning(Milliseconds, true);
       }
       if(switchLine){
          displayMessageLine(" ");
