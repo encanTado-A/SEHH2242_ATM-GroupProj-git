@@ -1,14 +1,14 @@
 
 Oct/3:
-Responsibility:Emil 
+Responsibility:Em
 finished some functions of Part II feature B 
 1.1version provided
 
 Oct/5:
-Lancentary (Ivan) took the task of Part II feature A
+L (I) took the task of Part II feature A
 
 Oct/6:
-Responsibility:Lancentary (Ivan)
+Responsibility:L (I)
 finished Part II feature A
 Adjusted function: allows users to either choose the pre-defined withdrawal amount $100 / $500 / $1000
 Added function: allows users input the the multiples of HKD100 for withdrawal [according to the lecturer email apply]
@@ -20,10 +20,10 @@ Changed README.TXT
 (Note: Corresponding java source file and class file have been gernerated)
 
 Oct/9
-Andrew took the task of Part II feature D
+A took the task of Part II feature D
 
 Oct/11
-Responsibility:Andrew
+Responsibility:A
 finished Part II feature D
 Added function: (5) Transfer allow users to transfer funds to another account (no pre-defined amount option)
 Implementation method: new class, reverse logic if statement, while-loop with flag variables, and UUID to generage reference number
@@ -37,10 +37,10 @@ Changed BankDatabase.java
 (Note: Corresponding java source file and class file have been gernerated)
 
 Oct/18
-Emil took the task of Part II feature C
+Em took the task of Part II feature C
 
 Oct/24
-Responsibility:Lancentary(Ivan)
+Responsibility:L (I)
 Added new Saving account and Cheque account
 Deleted README.TXT
 Changed devlog.txt
@@ -48,14 +48,14 @@ Constructed new class file of BankDatabase
 1.31version provided
 
 Oct/24
-Responsibility:Emil
+Responsibility:Em
 Completed the set method of ChequeAccount and SavingAccount
 Deleted Deposit and DepositSlot
 Part II feature C done
 1.4 version provided
 
 Oct/24
-Responsibility:Andrew
+Responsibility:A
 Added new method in Transfer:　addATMTransferRecord, getATMTransferRecord
 Changed execute: ammount will now registed as in cent from dollar
 Constructed new class file of Transfer
@@ -63,7 +63,7 @@ Changed devlog.txt
 1.41version provided
 
 Oct/25
-Responsibility:Lancentary(Ivan)
+Responsibility:L (I)
 Added an example in transfer function for better guiding 
 Constructed latest class file
 Deleted all .ctxt file and file bluej.package
@@ -71,20 +71,20 @@ Completed the devlog
 1.42 (final) version provided
 
 Oct/27
-Responsibility:Andrew
+Responsibility:A
 Changed Transfer: refine logic and better message presenation (in line 163)
 Completed the devlog
 1.43 version provided
 
 Nov/01
-Responsibility:Andrew
+Responsibility:A
 Changed Account: added line to credit available balnce for Transfer
 Changed CashDispenser: $20 bills to $100 bills
 Changed Devlog.txt
 1.44 version provided
 
 Nov/15
-Responsibility:Andrew
+Responsibility:A
 It now can respone to the keypad, and project numbers to the JTextField
 Changed ATN_interface.java
 Changed GUI.java
@@ -93,7 +93,7 @@ Changed Devlog.txt
 1.46 version provided
 
 Nov/17
-Responsibility:Andrew
+Responsibility:A
 Changed ATN_interface.java
 Changed GUI.java
 Changed KeypadPanel.java
@@ -101,7 +101,7 @@ Changed Devlog.txt
 2.00 version provided
 
 Nov/18
-Responsibility:Andrew, Lancentary(Ivan)
+Responsibility:A, L (I)
 Changed ATN_interface.java
 Changed GUI.java
 Changed KeypadPanel.java
